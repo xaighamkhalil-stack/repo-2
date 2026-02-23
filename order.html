@@ -116,6 +116,8 @@
     </footer>
 
     <script>
+      const DB_KEY = "zeebrand_products_db";
+
       const products = {
         sneakers: {
           name: "Zeebrand Street Sneakers",
@@ -158,6 +160,20 @@
           description: "Slim protective case with durable edge cushioning.",
         },
       };
+
+      try {
+        const customProducts = JSON.parse(localStorage.getItem(DB_KEY) || "[]");
+        customProducts.forEach((product) => {
+          if (product?.key && product?.name) {
+            products[product.key] = {
+              name: product.name,
+              description: product.description || "Product details from local database.",
+            };
+          }
+        });
+      } catch {
+        // Ignore corrupted local DB entries and continue with default products.
+      }
 
       const params = new URLSearchParams(window.location.search);
       const item = params.get("item");
