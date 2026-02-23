@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zeebrand Order | Checkout</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <a class="brand" href="index.html"><img src="logo.svg" alt="Zeebrand logo" class="brand-logo" />Zeebrand</a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="collections.html">Collections</a></li>
+            <li><a href="#order-form">Order</a></li>
+            <li><a href="#support">Support</a></li>
+          </ul>
+        </nav>
+        <a class="btn btn-outline" href="collections.html">Back to Collections</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="catalog-hero">
+        <div class="container">
+          <p class="eyebrow">Secure Checkout</p>
+          <h1>Complete your Zeebrand order in a few simple steps.</h1>
+          <p>
+            Fill in your details below. We use this information to prepare and deliver
+            your selected product quickly and safely.
+          </p>
+        </div>
+      </section>
+
+      <section class="order-section" id="order-form">
+        <div class="container order-wrap">
+          <aside class="order-summary">
+            <p class="summary-label">Selected Product</p>
+            <h2 id="selected-product">Zeebrand Street Sneakers</h2>
+            <p id="selected-description">Comfort-first sneakers for urban everyday style.</p>
+            <p class="summary-note">Need a different item? Return to Collections and choose another product.</p>
+            <a class="btn btn-light" href="collections.html">Change Product</a>
+          </aside>
+
+          <form class="order-form">
+            <div class="form-grid">
+              <label>
+                Full Name
+                <input type="text" name="full_name" placeholder="Enter your full name" required />
+              </label>
+
+              <label>
+                Email Address
+                <input type="email" name="email" placeholder="Enter your email" required />
+              </label>
+
+              <label>
+                Phone Number
+                <input type="tel" name="phone" placeholder="Enter your phone number" required />
+              </label>
+
+              <label>
+                Quantity
+                <input type="number" name="quantity" value="1" min="1" max="10" required />
+              </label>
+            </div>
+
+            <label>
+              Delivery Address
+              <textarea name="address" rows="4" placeholder="Street, city, zip code" required></textarea>
+            </label>
+
+            <label>
+              Payment Method
+              <select name="payment" required>
+                <option value="">Select payment method</option>
+                <option>Cash on Delivery</option>
+                <option>Credit / Debit Card</option>
+                <option>Online Wallet</option>
+              </select>
+            </label>
+
+            <label>
+              Order Notes (Optional)
+              <textarea name="notes" rows="3" placeholder="Any special delivery instructions?"></textarea>
+            </label>
+
+            <button class="btn btn-primary order-submit" type="submit">Shop Now</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" id="support">
+      <div class="container footer-content">
+        <div>
+          <a class="brand" href="index.html"><img src="logo.svg" alt="Zeebrand logo" class="brand-logo" />Zeebrand</a>
+          <p>Fast delivery, secure checkout, and premium customer support.</p>
+        </div>
+        <form>
+          <label for="email">Need help? Reach out and we’ll contact you.</label>
+          <div class="subscribe">
+            <input id="email" type="email" placeholder="Enter your email" />
+            <button class="btn btn-primary" type="submit">Contact</button>
+          </div>
+        </form>
+      </div>
+    </footer>
+
+    <script>
+      const DB_KEY = "zeebrand_products_db";
+
+      const products = {
+        sneakers: {
+          name: "Zeebrand Street Sneakers",
+          description: "Comfort-first sneakers for urban everyday style.",
+        },
+        tee: {
+          name: "Minimal Tee Pack",
+          description: "Breathable, premium cotton basics in neutral tones.",
+        },
+        lamp: {
+          name: "Glow Smart Desk Lamp",
+          description: "Modern ambient light with touch dimming controls.",
+        },
+        watch: {
+          name: "Zeebrand Active Watch",
+          description: "Track fitness, messages, and daily health insights.",
+        },
+        sunglasses: {
+          name: "Urban Shade Sunglasses",
+          description: "UV-protected eyewear with timeless frame design.",
+        },
+        skincare: {
+          name: "Daily Skin Care Set",
+          description: "Hydration essentials for a clean self-care routine.",
+        },
+        headphones: {
+          name: "Noise-Free Headphones",
+          description: "Immersive audio with all-day battery performance.",
+        },
+        mugs: {
+          name: "Ceramic Mug Duo",
+          description: "Minimal home essentials with premium matte finish.",
+        },
+        tote: {
+          name: "Metro Leather Tote",
+          description: "Spacious and polished carry-all for work and travel.",
+        },
+        case: {
+          name: "Zeebrand Phone Pro Case",
+          description: "Slim protective case with durable edge cushioning.",
+        },
+      };
+
+      try {
+        const customProducts = JSON.parse(localStorage.getItem(DB_KEY) || "[]");
+        customProducts.forEach((product) => {
+          if (product?.key && product?.name) {
+            products[product.key] = {
+              name: product.name,
+              description: product.description || "Product details from local database.",
+            };
+          }
+        });
+      } catch {
+        // Ignore corrupted local DB entries and continue with default products.
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const item = params.get("item");
+      if (item && products[item]) {
+        document.getElementById("selected-product").textContent = products[item].name;
+        document.getElementById("selected-description").textContent = products[item].description;
+      }
+    </script>
+  </body>
+</html>
