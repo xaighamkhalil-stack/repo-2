@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zeebrand Collections | Shop Premium Picks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <a class="brand" href="index.html"><img src="logo.svg" alt="Zeebrand logo" class="brand-logo" />Zeebrand</a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html#features">Why Zeebrand</a></li>
+            <li><a href="collections.html">Collections</a></li>
+            <li><a href="index.html#testimonials">Reviews</a></li>
+            <li><a href="#support">Support</a></li>
+          </ul>
+        </nav>
+        <a class="btn btn-outline" href="index.html">Back to Home</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="catalog-hero">
+        <div class="container">
+          <p class="eyebrow">Zeebrand Product Collection</p>
+          <h1>Explore vibrant picks and add your own products instantly.</h1>
+          <p>
+            This page now includes a lightweight browser database so you can add new
+            products and display them in the catalog.
+          </p>
+        </div>
+      </section>
+
+      <section class="product-admin">
+        <div class="container">
+          <div class="admin-card">
+            <h2>Add New Product (Database)</h2>
+            <p class="admin-note">Products are saved in your browser local database (localStorage).</p>
+            <form id="product-form" class="admin-form">
+              <input name="name" type="text" placeholder="Product name" required />
+              <input name="price" type="number" placeholder="Price (e.g. 59)" min="1" required />
+              <input name="tag" type="text" placeholder="Tag (e.g. New)" required />
+              <input name="image" type="url" placeholder="Image URL" required />
+              <textarea name="description" rows="3" placeholder="Short product description" required></textarea>
+              <button class="btn btn-primary" type="submit">Add Product</button>
+            </form>
+            <p id="db-status" aria-live="polite"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="product-section" id="products">
+        <div class="container">
+          <div class="product-grid" id="product-grid"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" id="support">
+      <div class="container footer-content">
+        <div>
+          <a class="brand" href="index.html"><img src="logo.svg" alt="Zeebrand logo" class="brand-logo" />Zeebrand</a>
+          <p>Premium collections, secure checkout, and reliable delivery.</p>
+        </div>
+        <form>
+          <label for="email">Join our updates list</label>
+          <div class="subscribe">
+            <input id="email" type="email" placeholder="Enter your email" />
+            <button class="btn btn-primary" type="submit">Subscribe</button>
+          </div>
+        </form>
+      </div>
+    </footer>
+
+    <script>
+      const DB_KEY = "zeebrand_products_db";
+
+      const defaultProducts = [
+        { key: "sneakers", name: "Zeebrand Street Sneakers", description: "Comfort-first sneakers for urban everyday style.", price: 79, tag: "Best Seller", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80" },
+        { key: "tee", name: "Minimal Tee Pack", description: "Breathable, premium cotton basics in neutral tones.", price: 35, tag: "New", image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80" },
+        { key: "lamp", name: "Glow Smart Desk Lamp", description: "Modern ambient light with touch dimming controls.", price: 59, tag: "Top Rated", image: "https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=800&q=80" },
+        { key: "watch", name: "Zeebrand Active Watch", description: "Track fitness, messages, and daily health insights.", price: 149, tag: "Popular", image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=800&q=80" },
+        { key: "sunglasses", name: "Urban Shade Sunglasses", description: "UV-protected eyewear with timeless frame design.", price: 42, tag: "Limited", image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=800&q=80" },
+        { key: "skincare", name: "Daily Skin Care Set", description: "Hydration essentials for a clean self-care routine.", price: 64, tag: "Trending", image: "https://images.unsplash.com/photo-1585386959984-a41552231658?auto=format&fit=crop&w=800&q=80" },
+        { key: "headphones", name: "Noise-Free Headphones", description: "Immersive audio with all-day battery performance.", price: 119, tag: "Editor Pick", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80" },
+        { key: "mugs", name: "Ceramic Mug Duo", description: "Minimal home essentials with premium matte finish.", price: 28, tag: "Value", image: "https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=800&q=80" },
+        { key: "tote", name: "Metro Leather Tote", description: "Spacious and polished carry-all for work and travel.", price: 95, tag: "Premium", image: "https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=800&q=80" },
+        { key: "case", name: "Zeebrand Phone Pro Case", description: "Slim protective case with durable edge cushioning.", price: 24, tag: "Daily Use", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80" },
+      ];
+
+      const productGrid = document.getElementById("product-grid");
+      const form = document.getElementById("product-form");
+      const statusText = document.getElementById("db-status");
+
+      function getCustomProducts() {
+        try {
+          return JSON.parse(localStorage.getItem(DB_KEY) || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      function saveCustomProducts(products) {
+        localStorage.setItem(DB_KEY, JSON.stringify(products));
+      }
+
+      function renderProducts() {
+        const allProducts = [...defaultProducts, ...getCustomProducts()];
+        productGrid.innerHTML = allProducts
+          .map(
+            (product) => `
+              <article class="product-card fade-in-up">
+                <img src="${product.image}" alt="${product.name}" />
+                <div class="product-content">
+                  <h3>${product.name}</h3>
+                  <p>${product.description}</p>
+                  <div class="product-meta"><span class="price">$${product.price}</span><span class="tag">${product.tag}</span></div>
+                  <a class="btn btn-primary product-btn" href="order.html?item=${encodeURIComponent(product.key)}">Order Now</a>
+                </div>
+              </article>
+            `
+          )
+          .join("");
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const name = String(formData.get("name") || "").trim();
+        const description = String(formData.get("description") || "").trim();
+        const image = String(formData.get("image") || "").trim();
+        const tag = String(formData.get("tag") || "").trim();
+        const price = Number(formData.get("price"));
+        const key = `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Date.now().toString().slice(-5)}`;
+
+        const customProducts = getCustomProducts();
+        customProducts.push({ key, name, description, image, tag, price });
+        saveCustomProducts(customProducts);
+
+        form.reset();
+        statusText.textContent = `Added "${name}" to the local product database.`;
+        renderProducts();
+      });
+
+      renderProducts();
+    </script>
+  </body>
+</html>

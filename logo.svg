@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 210" role="img" aria-label="Zeebrand logo">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#27d8ff"/>
+      <stop offset="100%" stop-color="#101a78"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="20%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#2bd9ff"/>
+      <stop offset="100%" stop-color="#0f1a7a"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#101a78"/>
+      <stop offset="100%" stop-color="#2bd9ff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- left chain -->
+  <path d="M44 158 C 92 158, 96 124, 130 100 C 163 77, 163 53, 163 50" fill="none" stroke="url(#g1)" stroke-width="42" stroke-linecap="round"/>
+  <circle cx="44" cy="158" r="44" fill="url(#g3)"/>
+  <circle cx="163" cy="50" r="44" fill="url(#g1)"/>
+
+  <!-- top middle chain -->
+  <path d="M320 50 C 365 30, 420 30, 468 50" fill="none" stroke="url(#g2)" stroke-width="42" stroke-linecap="round"/>
+  <circle cx="320" cy="50" r="44" fill="url(#g1)"/>
+  <circle cx="492" cy="50" r="44" fill="url(#g3)"/>
+
+  <!-- right chain -->
+  <path d="M596 50 C 568 72, 546 80, 520 102 C 496 124, 492 146, 492 158" fill="none" stroke="url(#g2)" stroke-width="42" stroke-linecap="round"/>
+  <circle cx="596" cy="50" r="44" fill="url(#g3)"/>
+  <circle cx="492" cy="158" r="44" fill="url(#g1)"/>
+
+  <!-- bottom middle chain -->
+  <path d="M152 158 C 208 134, 260 134, 320 158" fill="none" stroke="url(#g2)" stroke-width="42" stroke-linecap="round"/>
+  <circle cx="152" cy="158" r="44" fill="url(#g3)"/>
+  <circle cx="320" cy="158" r="44" fill="url(#g1)"/>
+</svg>
